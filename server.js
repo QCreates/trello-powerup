@@ -2,13 +2,21 @@
 import express from 'express';
 import fetch from 'node-fetch';
 import dotenv from 'dotenv';
+import cors from 'cors'; // Import CORS middleware
 
-// Load environment variables from .env file
 dotenv.config();
 
 const app = express();
 const apiKey = process.env.TRELLO_API_KEY;
 const token = process.env.TRELLO_API_TOKEN;
+
+// Enable CORS with specific options
+app.use(cors({
+  origin: 'https://qcreates.github.io', // Allow only this origin
+  methods: ['GET', 'POST', 'PUT'], // Allow specific HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers
+  credentials: true, // Enable credentials if needed
+}));
 
 app.use(express.json());
 
