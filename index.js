@@ -1,41 +1,39 @@
 window.TrelloPowerUp.initialize({
-  // Add a card button to manually trigger the color update
+  // Add a card button to manually trigger the cover color update
   'card-buttons': function(t, options) {
     return [{
       icon: 'https://qcreates.github.io/trello-powerup/assets/icon.png', // Icon for the button
-      text: 'Update Color',
+      text: 'Update Cover',
       callback: function(t) {
         return t.card('id', 'name')
           .then(function(card) {
             const cardId = card.id;
             const cardName = card.name;
-            const targetName = 'Qasem'; // Replace with the name you're checking for
+            const targetName = 'Specific Name'; // Replace with the name you're checking for
             const apiKey = process.env.TRELLO_API_KEY; // Use environment variables for security
             const apiToken = process.env.TRELLO_API_TOKEN;
 
             if (cardName.includes(targetName)) {
-              // Define label properties
-              const labelName = 'Highlighted';
-              const labelColor = 'red'; // Choose the color you want
+              // Define the cover properties
+              const coverColor = 'red'; // Choose the cover color
 
-              // Add the label to the card using Trello API
-              fetch(`https://api.trello.com/1/cards/${cardId}/labels?key=${apiKey}&token=${apiToken}`, {
-                method: 'POST',
+              // Update the cover color using Trello API
+              fetch(`https://api.trello.com/1/cards/${cardId}/cover?key=${apiKey}&token=${apiToken}`, {
+                method: 'PUT',
                 headers: {
                   'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                  name: labelName,
-                  color: labelColor
+                  color: coverColor // Set the cover color
                 })
               })
               .then(response => response.json())
               .then(data => {
-                console.log('Label added:', data);
+                console.log('Cover updated:', data);
                 t.closePopup();
               })
               .catch(error => {
-                console.error('Error adding label:', error);
+                console.error('Error updating cover:', error);
                 t.closePopup();
               });
             } else {
@@ -45,22 +43,5 @@ window.TrelloPowerUp.initialize({
           });
       }
     }];
-  },
-
-  // Add a badge to indicate the card has a special label
-  'card-badges': function(t, options) {
-    return t.card('name')
-      .get('name')
-      .then(function(cardName) {
-        const targetName = 'Specific Name'; // Replace with the name you're checking for
-
-        if (cardName.includes(targetName)) {
-          return [{
-            text: 'Special',
-            color: 'red' // Badge color for quick indication
-          }];
-        }
-        return [];
-      });
   }
 });
