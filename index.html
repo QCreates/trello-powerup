@@ -1,37 +1,15 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Power-Up</title>
+    <script src="https://p.trellocdn.com/power-up.min.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <script src="https://p.trellocdn.com/power-up.min.js"></script>
-  <script>
-    TrelloPowerUp.initialize({
-      'card-buttons': function (t, options) {
-        return [
-          {
-            icon: "https://i.ibb.co/6sbknH0/logo-stroke-32pt-style-2-no-stroke.png",
-            text: "Hello World!",
-            callback: function (t) {
-              return t.card('id', 'name').then(card => alert(`Hello from ${card.name} (id: ${card.id})!`))
-            }
-          }
-        ]
-      },
-      'board-buttons': function (t, options) {
-        return [
-          { 
-            icon: "https://i.ibb.co/6sbknH0/logo-stroke-32pt-style-2-no-stroke.png",
-            text: "Hello World!",
-            callback: function (t) {
-              return t.board().then(board => alert(`Hello world!`))
-            }
-          }
-        ]
-      }
-    })
-  </script>
+    <h1>Update 1.4</h1>
+    <script src="index.js"></script>
 </body>
 </html>
