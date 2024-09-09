@@ -4,11 +4,60 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom Power-Up</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Trello Power-Up</title>
 </head>
 <body>
-    <h1>Update 1.4</h1>
-    <script src="index.js"></script>
+    <!-- Load Trello Power-Up Client Library -->
+    <script src="https://p.trellocdn.com/power-up.min.js"></script>
+
+    <!-- Your custom script -->
+    <script>
+        window.TrelloPowerUp.initialize({
+          // Auto-update card cover when a card is opened or loaded
+          'card-badges': function(t, options) {
+            return t.card('id', 'name')
+              .then(function(card) {
+                const cardId = card.id;
+                const cardName = card.name;
+                const targetName = 'Specific Name'; // Replace with the specific name to check
+                const apiKey = process.env.TRELLO_API_KEY; // Ensure these are set
+                const apiToken = process.env.TRELLO_API_TOKEN;
+
+                if (cardName.includes(targetName)) {
+                  // Define the cover properties
+                  const coverColor = 'red'; // Valid colors: red, green, yellow, blue, purple, pink, black, sky, lime
+
+                  // Update the cover color using Trello API
+                  return fetch(`https://api.trello.com/1/cards/${cardId}/cover?key=${apiKey}&token=${apiToken}`, {
+                    method: 'PUT',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                      color: coverColor, // Set the cover color
+                      brightness: 'light', // Set brightness to 'light' or 'dark'
+                      size: 'full' // Set to 'full' or 'half' depending on the desired cover size
+                    })
+                  })
+                  .then(response => {
+                    if (!response.ok) {
+                      throw new Error('Failed to update cover color');
+                    }
+                    return response.json();
+                  })
+                  .then(data => {
+                    console.log('Cover updated:', data);
+                    return [];
+                  })
+                  .catch(error => {
+                    console.error('Error updating cover:', error);
+                    return []; // Return empty badges on error
+                  });
+                }
+                return [];
+              });
+          }
+        });
+    </script>
 </body>
 </html>
