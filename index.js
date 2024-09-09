@@ -1,59 +1,66 @@
 window.TrelloPowerUp.initialize({
+  // Add a card button to manually trigger the color update
   'card-buttons': function(t, options) {
     return [{
-      text: 'Update Label',
+      icon: 'https://qcreates.github.io/trello-powerup/assets/icon.png', // Icon for the button
+      text: 'Update Color',
       callback: function(t) {
         return t.card('id', 'name')
           .then(function(card) {
             const cardId = card.id;
             const cardName = card.name;
             const targetName = 'Qasem'; // Replace with the name you're checking for
+            const apiKey = process.env.TRELLO_API_KEY; // Use environment variables for security
+            const apiToken = process.env.TRELLO_API_TOKEN;
 
             if (cardName.includes(targetName)) {
-              // Define your API key and token
-              const apiKey = process.env.TRELLO_API_KEY;
-              const apiToken = process.env.TRELLO_API_TOKEN;
-              const labelName = 'Important'; // Name of the label you want to add
-              const labelColor = 'red'; // Color of the label: red, green, yellow, blue, etc.
+              // Define label properties
+              const labelName = 'Highlighted';
+              const labelColor = 'red'; // Choose the color you want
 
-              // Check if the label already exists on the board
-              fetch(`https://api.trello.com/1/boards/${options.context.board}/labels?key=${apiKey}&token=${apiToken}`)
-                .then(response => response.json())
-                .then(labels => {
-                  let label = labels.find(l => l.name === labelName && l.color === labelColor);
-
-                  if (!label) {
-                    // Create the label if it does not exist
-                    fetch(`https://api.trello.com/1/labels?name=${labelName}&color=${labelColor}&idBoard=${options.context.board}&key=${apiKey}&token=${apiToken}`, {
-                      method: 'POST'
-                    })
-                      .then(response => response.json())
-                      .then(newLabel => {
-                        // Add the newly created label to the card
-                        return fetch(`https://api.trello.com/1/cards/${cardId}/idLabels?value=${newLabel.id}&key=${apiKey}&token=${apiToken}`, {
-                          method: 'POST'
-                        });
-                      });
-                  } else {
-                    // Add existing label to the card
-                    return fetch(`https://api.trello.com/1/cards/${cardId}/idLabels?value=${label.id}&key=${apiKey}&token=${apiToken}`, {
-                      method: 'POST'
-                    });
-                  }
+              // Add the label to the card using Trello API
+              fetch(`https://api.trello.com/1/cards/${cardId}/labels?key=${apiKey}&token=${apiToken}`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  name: labelName,
+                  color: labelColor
                 })
-                .then(() => {
-                  alert('Label updated successfully!');
-                  t.closePopup();
-                })
-                .catch(error => {
-                  console.error('Error updating label:', error);
-                  alert('Failed to update label.');
-                });
+              })
+              .then(response => response.json())
+              .then(data => {
+                console.log('Label added:', data);
+                t.closePopup();
+              })
+              .catch(error => {
+                console.error('Error adding label:', error);
+                t.closePopup();
+              });
             } else {
+              alert('Card name does not match the target name.');
               t.closePopup();
             }
           });
       }
     }];
+  },
+
+  // Add a badge to indicate the card has a special label
+  'card-badges': function(t, options) {
+    return t.card('name')
+      .get('name')
+      .then(function(cardName) {
+        const targetName = 'Specific Name'; // Replace with the name you're checking for
+
+        if (cardName.includes(targetName)) {
+          return [{
+            text: 'Special',
+            color: 'red' // Badge color for quick indication
+          }];
+        }
+        return [];
+      });
   }
 });

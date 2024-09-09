@@ -1,17 +1,17 @@
 {
-  "name": "My Custom Power-Up",
-  "description": "A basic Trello Power-Up example.",
+  "name": "Card Color Updater",
+  "description": "Updates card label color based on card name.",
   "author": "Your Name",
-  "capabilities": ["card-buttons"],
+  "capabilities": ["card-buttons", "card-badges"],
   "connectors": {
     "iframe": {
-      "url": "./index.html"
+      "url": "https://qcreates.github.io/trello-powerup/index.html"
     }
   },
   "icon": {
     "url": "https://qcreates.github.io/trello-powerup/assets/icon.png"
   },
   "entry": {
-    "capabilities": "https://yourdomain.com/manifest.json"
+    "capabilities": "https://qcreates.github.io/trello-powerup/manifest.json"
   }
 }
