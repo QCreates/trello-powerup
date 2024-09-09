@@ -9,7 +9,7 @@
     }
   },
   "icon": {
-    "url": "https://example.com/icon.png"  // Replace with your own icon URL
+    "url": "https://qcreates.github.io/trello-powerup/assets/icon.png"  // Replace with your own icon URL
   },
   "entry": {
     "capabilities": "https://yourdomain.com/manifest.json"
