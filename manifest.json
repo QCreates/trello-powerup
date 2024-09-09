@@ -1,0 +1,17 @@
+{
+  "name": "My Custom Power-Up",
+  "description": "A basic Trello Power-Up example.",
+  "author": "Your Name",
+  "capabilities": ["card-buttons"],
+  "connectors": {
+    "iframe": {
+      "url": "./index.html"
+    }
+  },
+  "icon": {
+    "url": "https://example.com/icon.png"  // Replace with your own icon URL
+  },
+  "entry": {
+    "capabilities": "https://yourdomain.com/manifest.json"
+  }
+}
