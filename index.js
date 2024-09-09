@@ -15,8 +15,8 @@ window.TrelloPowerUp.initialize({
 
             if (cardName.includes(targetName)) {
               // Define the cover properties
-              const coverColor = 'red'; // Choose the cover color
-
+              const coverColor = 'red'; // Valid colors: red, green, yellow, blue, purple, pink, black, sky, lime
+              
               // Update the cover color using Trello API
               fetch(`https://api.trello.com/1/cards/${cardId}/cover?key=${apiKey}&token=${apiToken}`, {
                 method: 'PUT',
@@ -24,16 +24,25 @@ window.TrelloPowerUp.initialize({
                   'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                  color: coverColor // Set the cover color
+                  color: coverColor, // Set the cover color
+                  brightness: 'light', // Set brightness to 'light' or 'dark'
+                  size: 'full' // Set to 'full' or 'half' depending on the desired cover size
                 })
               })
-              .then(response => response.json())
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error('Failed to update cover color');
+                }
+                return response.json();
+              })
               .then(data => {
                 console.log('Cover updated:', data);
+                alert('Cover color updated successfully!');
                 t.closePopup();
               })
               .catch(error => {
                 console.error('Error updating cover:', error);
+                alert('Error updating cover color.');
                 t.closePopup();
               });
             } else {
