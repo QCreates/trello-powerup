@@ -7,7 +7,7 @@ window.TrelloPowerUp.initialize({
           .then(function(card) {
             const cardId = card.id;
             const cardName = card.name;
-            const targetName = 'Specific Name'; // Replace with the name you're checking for
+            const targetName = 'Qasem'; // Replace with the name you're checking for
 
             if (cardName.includes(targetName)) {
               // Define your API key and token
