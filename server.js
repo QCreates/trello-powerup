@@ -12,10 +12,10 @@ const token = process.env.TRELLO_API_TOKEN;
 
 // Enable CORS with specific options
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://qcreates.github.io'], // Allow local and deployed origins
-  methods: ['GET', 'POST', 'PUT'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
+  origin: 'https://qcreates.github.io', // Allow only this origin
+  methods: ['GET', 'POST', 'PUT'], // Allow specific HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers
+  credentials: true, // Enable credentials if needed
 }));
 
 app.use(express.json());
