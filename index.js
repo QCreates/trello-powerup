@@ -26,10 +26,7 @@ if (typeof TrelloPowerUp !== 'undefined') {
               body: JSON.stringify({
                 brightness: 'dark', // or 'dark'
                 color: coverColor,
-                idAttachment: null,
-                idPlugin: null,
-                idUploadedBackground: null,
-                size: 'full', // or 'normal'
+                size: 'full'// or 'normal'
               })
             })
             .then(response => {
