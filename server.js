@@ -35,8 +35,8 @@ app.put('/update-cover', async (req, res) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        color: color, // Valid Trello color
         brightness: 'light', // Can be 'light' or 'dark'
+        color: color, // Valid Trello color
         size: 'full' // Can be 'full' or 'normal'
       })
     });

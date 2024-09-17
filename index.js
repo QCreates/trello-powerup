@@ -26,7 +26,7 @@ if (typeof TrelloPowerUp !== 'undefined') {
               body: JSON.stringify({
                 brightness: 'light', // or 'dark'
                 color: coverColor,
-                size: 'full',// or 'normal'
+                size: 'full'// or 'normal'
               })
             })
             .then(response => {
