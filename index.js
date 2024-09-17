@@ -24,6 +24,7 @@ if (typeof TrelloPowerUp !== 'undefined') {
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify({
+                cardId: cardId,
                 brightness: 'light', // or 'dark'
                 color: coverColor,
                 size: 'full'// or 'normal'
@@ -34,7 +35,7 @@ if (typeof TrelloPowerUp !== 'undefined') {
               if (!response.ok) {
                 return response.json().then(err => {
                   console.error('Failed to update cover color:', err);
-                  throw new Error('Failed to update cover color');
+                  throw new Error('Unable to update cover color');
                 });
               }
               return response.json();
