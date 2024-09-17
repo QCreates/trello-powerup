@@ -1,8 +1,7 @@
-// server.js
 import express from 'express';
 import fetch from 'node-fetch';
 import dotenv from 'dotenv';
-import cors from 'cors'; // Import CORS middleware
+import cors from 'cors';
 
 dotenv.config();
 
@@ -10,18 +9,25 @@ const app = express();
 const apiKey = process.env.TRELLO_API_KEY;
 const token = process.env.TRELLO_API_TOKEN;
 
-// Enable CORS with specific options
 app.use(cors({
-  origin: 'https://qcreates.github.io', // Allow only this origin
-  methods: ['GET', 'POST', 'PUT'], // Allow specific HTTP methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers
-  credentials: true, // Enable credentials if needed
+  origin: 'https://qcreates.github.io',
+  methods: ['GET', 'POST', 'PUT'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
 }));
 
 app.use(express.json());
 
 app.put('/update-cover', async (req, res) => {
   const { cardId, color } = req.body;
+  
+  // Ensure that the color is valid
+  const validColors = ['green', 'yellow', 'orange', 'red', 'purple', 'blue', 'sky', 'lime', 'pink', 'black'];
+  
+  if (!validColors.includes(color)) {
+    return res.status(400).send({ error: 'Invalid color value' });
+  }
+
   try {
     const response = await fetch(`https://api.trello.com/1/cards/${cardId}/cover?key=${apiKey}&token=${token}`, {
       method: 'PUT',
@@ -29,12 +35,14 @@ app.put('/update-cover', async (req, res) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        color: color, // Set the cover color
-        brightness: 'light', // Set brightness to 'light' or 'dark'
-        size: 'full' // Set to 'full' or 'half' depending on the desired cover size
+        color: color, // Valid Trello color
+        brightness: 'light', // Can be 'light' or 'dark'
+        size: 'full' // Can be 'full' or 'normal'
       })
     });
+
     if (!response.ok) throw new Error('Failed to update cover color');
+    
     const data = await response.json();
     res.status(200).send(data);
   } catch (error) {

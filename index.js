@@ -24,7 +24,6 @@ if (typeof TrelloPowerUp !== 'undefined') {
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify({
-                cardId: cardId,
                 color: coverColor,
                 brightness: 'light', // or 'dark'
                 size: 'full', // or 'normal'
