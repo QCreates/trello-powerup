@@ -1,5 +1,6 @@
 if (typeof TrelloPowerUp !== 'undefined') {
   console.log("TrelloPowerUp is defined");
+
   window.TrelloPowerUp.initialize({
     'card-badges': function(t, options) {
       return t.card('id', 'name')
@@ -15,7 +16,11 @@ if (typeof TrelloPowerUp !== 'undefined') {
             console.log('Updating cover color for card:', cardId);
 
             // Define the cover properties
-            const coverColor = 'red';
+            const coverColor = 'red'; // Change to the desired color
+            const brightness = 'light'; // 'light' or 'dark'
+            const size = 'full'; // 'full' or 'normal'
+            const idAttachment = null; // Add if using an attachment cover
+            const idUploadedBackground = null; // Add if using uploaded background
 
             // Call your backend server to update the cover color
             return fetch('http://localhost:3000/update-cover', {
@@ -25,9 +30,11 @@ if (typeof TrelloPowerUp !== 'undefined') {
               },
               body: JSON.stringify({
                 cardId: cardId,
-                brightness: 'light', // or 'dark'
                 color: coverColor,
-                size: 'full'// or 'normal'
+                brightness: brightness,
+                size: size,
+                idAttachment: idAttachment, // Include this if relevant
+                idUploadedBackground: idUploadedBackground // Include this if relevant
               })
             })
             .then(response => {
@@ -57,7 +64,8 @@ if (typeof TrelloPowerUp !== 'undefined') {
           console.error('Error handling card-badges capability:', error);
           return [];
         });
-  }});
+    }
+  });
 } else {
   console.error('TrelloPowerUp is not defined');
 }

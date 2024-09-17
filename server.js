@@ -19,8 +19,8 @@ app.use(cors({
 app.use(express.json());
 
 app.put('/update-cover', async (req, res) => {
-  const { cardId, color } = req.body;
-  
+  const { cardId, color, brightness = 'light', size = 'full', idAttachment = null, idUploadedBackground = null } = req.body;
+
   // Ensure that the color is valid
   const validColors = ['green', 'yellow', 'orange', 'red', 'purple', 'blue', 'sky', 'lime', 'pink', 'black'];
   
@@ -35,9 +35,12 @@ app.put('/update-cover', async (req, res) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        brightness: 'light', // Can be 'light' or 'dark'
-        color: color, // Valid Trello color
-        size: 'full' // Can be 'full' or 'normal'
+        color: color,
+        brightness: brightness,
+        size: size,
+        idAttachment: idAttachment, // Include if using attachment as a cover
+        idUploadedBackground: idUploadedBackground, // Include if using an uploaded background
+      
       })
     });
 
