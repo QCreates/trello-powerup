@@ -24,8 +24,11 @@ if (typeof TrelloPowerUp !== 'undefined') {
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify({
+                brightness: 'dark', // or 'dark'
                 color: coverColor,
-                brightness: 'light', // or 'dark'
+                idAttachment: null,
+                idPlugin: null,
+                idUploadedBackground: null,
                 size: 'full', // or 'normal'
               })
             })
